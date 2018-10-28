@@ -27,7 +27,7 @@ steelRound = [% round steel 2.6 mm
               0 0 0 0 0 0 53 58 63 70 ...
               77 86 96 107 120 135 153 173 0 0 ...
               0 0 0 0 0 0 0 0 0 0 ...
-              0 0 0 0] * 9.81;
+              0 0 0 0] * 10;
 
 %%
 suportedMaterial = ["Steel"," ","Aluminium"];
@@ -41,4 +41,30 @@ end
 nSpokesLeft = input('Number of spokes on the left side: ');
 nSpokesRight = input('Number of spokes on the left side: ');
 
+leftSpokeTension = zeros(1,nSpokesLeft);
+rightSpokeTension = zeros(1,nSpokesRight);
 
+
+
+for n = 1 : nSpokesLeft
+    string = sprintf('%d. left spoke tension: ',n);
+    leftSpokeTension(n) = input(string);
+end
+
+for n = 1 : nSpokesRight
+    string = sprintf('%d. right spoke tension: ',n);
+    rightSpokeTension(n) = input(string);
+end
+
+%% Convert TM-1 Tension to Newton 
+
+test = griddedInterpolant(tensionScaleTM1,steelRound(4,:));
+
+
+%%
+figure
+polarplot(leftSpokeTension);
+hold on
+polarplot(rightSpokeTension);
+hold off
+legend('left side','right side')
